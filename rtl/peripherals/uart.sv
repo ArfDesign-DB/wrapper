@@ -121,11 +121,13 @@ module uart #(
   assign rx_fifo_empty  = ~rx_fifo_rvalid;
 
   // Set the rx_baud_counter half-way on rx_start to ensure sampling the bits 'in the middle'
-  assign rx_baud_counter_d = rx_baud_tick ? '0                                            :
-                             rx_start     ? $bits(rx_baud_counter_q)'(ClocksPerBaud >> 1) :
-                                            rx_baud_counter_q + 1'b1;
+  assign rx_baud_counter_d = (rx_state_q == IDLE && !rx_start) ? '0                                            :
+                             rx_baud_tick                    ? '0                                            :
+                             rx_start                        ? $bits(rx_baud_counter_q)'(ClocksPerBaud >> 1) :
+                                                               rx_baud_counter_q + 1'b1;
 
-  assign rx_baud_tick = rx_baud_counter_q == $bits(rx_baud_counter_q)'(ClocksPerBaud - 1);
+  assign rx_baud_tick = (rx_state_q != IDLE) &&
+                        (rx_baud_counter_q == $bits(rx_baud_counter_q)'(ClocksPerBaud - 1));
 
   prim_fifo_sync #(
     .Width ( 8           ),
@@ -229,8 +231,11 @@ module uart #(
   assign tx_fifo_wvalid = (reg_addr == UartTxReg) & write_req;
   assign tx_fifo_rready = tx_baud_tick & tx_next_byte;
 
-  assign tx_baud_counter_d = tx_baud_tick ? '0 : tx_baud_counter_q + 1'b1;
-  assign tx_baud_tick      = tx_baud_counter_q == $bits(tx_baud_counter_q)'(ClocksPerBaud - 1);
+  assign tx_baud_counter_d = (tx_state_q == IDLE && !tx_fifo_rvalid) ? '0 :
+                             tx_baud_tick                         ? '0 :
+                                                                    tx_baud_counter_q + 1'b1;
+  assign tx_baud_tick      = ((tx_state_q != IDLE) || tx_fifo_rvalid) &&
+                             (tx_baud_counter_q == $bits(tx_baud_counter_q)'(ClocksPerBaud - 1));
 
   prim_fifo_sync #(
     .Width ( 8           ),
