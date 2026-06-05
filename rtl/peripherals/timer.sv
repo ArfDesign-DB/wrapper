@@ -242,8 +242,11 @@ module timer #(
   // Register read response
   // -------------------------------------------------
 
-  always_ff @(posedge clk_i) begin
-    if (timer_req_i) begin
+  always_ff @(posedge clk_i or negedge rst_ni) begin
+    if (!rst_ni) begin
+      rdata_q <= '0;
+      error_q <= 1'b0;
+    end else if (timer_req_i) begin
       rdata_q <= rdata_d;
       error_q <= error_d;
     end
