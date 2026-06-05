@@ -19,12 +19,6 @@ This repository contains a small memory-mapped hardware wrapper built from an OB
 <simulator> -f filelist.f
 ```
 
-The included Verilator smoke-test command is:
-
-```sh
-make smoke
-```
-
 The current execution environment used for this cleanup did not include Verilator, Icarus Verilog, Yosys, Slang, Surelog, or svlint, so the included checks are static repository checks rather than HDL compilation.
 
 ## Top-level integration
@@ -49,4 +43,4 @@ The boot ROM defaults to `boot.mem`, which contains a small RISC-V NOP sled plac
 
 ## Verification status
 
-The repository includes lightweight static checks in `scripts/check_repo.py` that validate the filelist, boot image presence, top-level presence, and common duplicate-module hazards. A simulator smoke test is provided at `tb/wrapper_smoke_tb.sv`; run it with `make smoke` when Verilator is available.
+The repository includes lightweight static checks in `scripts/check_repo.py` that validate the filelist, boot image presence, top-level presence, and common duplicate-module hazards. A simulator smoke test is provided at `tb/wrapper_smoke_tb.sv`; run it with an HDL simulator together with `filelist.f` when a SystemVerilog toolchain is available.
