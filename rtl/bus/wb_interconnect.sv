@@ -205,6 +205,7 @@ module wb_interconnect #(
 
   device_e device_sel_resp;
 
+  logic req_fire;
   logic decode_err_resp; //if 1 -> device matched, if 0 -> no device matched
                          //so give this error resp, or else cpu will wait forever
   
@@ -245,6 +246,8 @@ module wb_interconnect #(
 
   end
 
+  assign req_fire = wb_cyc_i & wb_stb_i;
+
   // =========================================================
   // Response Pipeline
   // =========================================================
@@ -268,19 +271,20 @@ module wb_interconnect #(
 
     end else begin
 
-      if      (bootrom_sel) device_sel_resp <= DEV_BOOTROM;
-      else if (sram_sel)    device_sel_resp <= DEV_SRAM;
-      else if (xip_sel)     device_sel_resp <= DEV_XIP;
-      else if (uart_sel)    device_sel_resp <= DEV_UART;
-      else if (gpio_sel)    device_sel_resp <= DEV_GPIO;
-      else if (timer_sel)   device_sel_resp <= DEV_TIMER;
-      else if (spictrl_sel) device_sel_resp <= DEV_SPICTRL;
-      else if (i2c_sel)     device_sel_resp <= DEV_I2C;
-      else if (spihost_sel) device_sel_resp <= DEV_SPIHOST;
+      if (req_fire) begin
+        if      (bootrom_sel) device_sel_resp <= DEV_BOOTROM;
+        else if (sram_sel)    device_sel_resp <= DEV_SRAM;
+        else if (xip_sel)     device_sel_resp <= DEV_XIP;
+        else if (uart_sel)    device_sel_resp <= DEV_UART;
+        else if (gpio_sel)    device_sel_resp <= DEV_GPIO;
+        else if (timer_sel)   device_sel_resp <= DEV_TIMER;
+        else if (spictrl_sel) device_sel_resp <= DEV_SPICTRL;
+        else if (i2c_sel)     device_sel_resp <= DEV_I2C;
+        else if (spihost_sel) device_sel_resp <= DEV_SPIHOST;
+      end
 
       decode_err_resp <=
-        wb_cyc_i &
-        wb_stb_i &
+        req_fire &
        !(bootrom_sel |
          sram_sel    |
          xip_sel     |

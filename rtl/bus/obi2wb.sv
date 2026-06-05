@@ -102,7 +102,7 @@ module obi2wb #(
     case (state_q)
  
       IDLE: begin
-        if (obi_req_i && !req_sent_q)
+        if (obi_req_i && !req_sent_q && !wb_stall_i)
           state_d = WAIT_ACK;
       end
  
