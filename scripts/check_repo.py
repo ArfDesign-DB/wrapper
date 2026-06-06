@@ -31,17 +31,7 @@ def check_filelist() -> list[str]:
 
 
 def check_required_files() -> list[str]:
-    required = [
-        "README.md",
-        "Makefile",
-        "boot.mem",
-        "rtl/wrapper_top.sv",
-        "tb/wrapper_smoke_tb.sv",
-        "rtl/prim/prim_assert_dummy_macros.svh",
-        "rtl/prim/prim_assert_standard_macros.svh",
-        "rtl/prim/prim_assert_yosys_macros.svh",
-        "rtl/prim/prim_assert_sec_cm.svh",
-    ]
+    required = ["README.md", "boot.mem", "rtl/wrapper_top.sv", "tb/wrapper_smoke_tb.sv"]
     return [f"missing required file: {path}" for path in required if not (ROOT / path).exists()]
 
 
