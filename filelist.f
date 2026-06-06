@@ -1,48 +1,51 @@
 ############################################
-# LOWRISC PRIMITIVES (MUST BE FIRST)
+# Wrapper RTL file list
+# Paths are relative to the repository root.
 ############################################
-/home/arf/shivanee/wrapper/vendor/lowrisc/prim/prim_count_pkg.sv
-/home/arf/shivanee/wrapper/vendor/lowrisc/prim/prim_util_pkg.sv
-/home/arf/shivanee/wrapper/vendor/lowrisc/prim/prim_fifo_sync_cnt.sv
-/home/arf/shivanee/wrapper/vendor/lowrisc/prim/prim_fifo_sync.sv
-/home/arf/shivanee/wrapper/vendor/lowrisc/prim/prim_assert.sv
 
++incdir+rtl/prim
++incdir+rtl/peripherals
+
+############################################
+# LOWRISC PRIMITIVES USED BY LOCAL RTL
+############################################
+rtl/prim/prim_assert.sv
+rtl/prim/prim_util_pkg.sv
+rtl/prim/prim_count_pkg.sv
+rtl/prim/prim_flop.sv
+rtl/prim/prim_count.sv
+rtl/prim/prim_fifo_sync_cnt.sv
+rtl/prim/prim_fifo_sync.sv
 
 ############################################
 # BUS LOGIC (OBI + WISHBONE)
 ############################################
-/home/arf/shivanee/wrapper/rtl/bus/obi2wb.sv
-/home/arf/shivanee/wrapper/rtl/bus/wb_interconnect.sv
-
+rtl/bus/obi2wb.sv
+rtl/bus/wb_interconnect.sv
 
 ############################################
 # MEMORY SUBSYSTEM
 ############################################
-/home/arf/shivanee/wrapper/rtl/memory/sram_controller.sv
-/home/arf/shivanee/wrapper/rtl/memory/boot_rom.sv
-
+rtl/memory/boot_rom.sv
+rtl/memory/sram_controller.sv
 
 ############################################
 # PERIPHERALS
 ############################################
+rtl/peripherals/debounce.sv
+rtl/peripherals/gpio.sv
+rtl/peripherals/timer.sv
+rtl/peripherals/uart.sv
+rtl/peripherals/spi_host.sv
+rtl/peripherals/spi_top.sv
+rtl/peripherals/timescale.v
+rtl/peripherals/i2c_master_defines.v
+rtl/peripherals/i2c_master_bit_ctrl.v
+rtl/peripherals/i2c_master_byte_ctrl.v
+rtl/peripherals/i2c_master_top.v
+rtl/peripherals/i2c_wb_wrapper.v
 
-# UART
-/home/arf/shivanee/wrapper/rtl/peripherals/uart/uart.sv
-
-# TIMER
-/home/arf/shivanee/wrapper/rtl/peripherals/timer/timer.sv
-
-# I2C
-/home/arf/shivanee/wrapper/rtl/peripherals/i2c/i2c_wb_wrapper.v
-/home/arf/shivanee/wrapper/rtl/peripherals/i2c/i2c_master_bit_ctrl.v
-/home/arf/shivanee/wrapper/rtl/peripherals/i2c/i2c_master_byte_ctrl.v
-/home/arf/shivanee/wrapper/rtl/peripherals/i2c/i2c_master_defines.v
-/home/arf/shivanee/wrapper/rtl/peripherals/i2c/i2c_master_top.v
-
-# SPI
-/home/arf/shivanee/wrapper/rtl/peripherals/spi/spi_host.sv
-/home/arf/shivanee/wrapper/rtl/peripherals/spi/spi_top.sv
-
-# GPIO
-/home/arf/shivanee/wrapper/rtl/peripherals/gpio/debounce.sv
-/home/arf/shivanee/wrapper/rtl/peripherals/gpio/gpio.sv
+############################################
+# INTEGRATED TOP
+############################################
+rtl/wrapper_top.sv
